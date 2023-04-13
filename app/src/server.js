@@ -34,7 +34,7 @@ app.use(pinoHttp)
 const { Canvas, Image, ImageData, loadImage } = canvas
 faceapi.env.monkeyPatch({ Canvas, Image, ImageData })
 
-async function loadUserPhoto(userPhoto) {
+const loadUserPhoto = async (userPhoto) => {
   try {
     const img = await loadImage(userPhoto);
     return img;
@@ -43,7 +43,7 @@ async function loadUserPhoto(userPhoto) {
   }
 }
 
-async function detectFace(img) {
+const detectFace = async (img) => {
   const detections = await faceapi
     .detectSingleFace(img)
     .withFaceLandmarks()
@@ -67,7 +67,7 @@ app.post('/register', upload.single('user_photo'), async function (req, res, nex
     res.json({nameSurname: result});
   }
   else {
-    res.log.info('No vectors found in the image for user: ' + req.body.name_surname);
+    res.log.info(`No vectors found in the image for user: ${req.body.name_surname}`);
     res.status(403).send({error: 'No vectors found in the image.'})
   }
 })
@@ -91,7 +91,7 @@ app.post('/signin', upload.single('user_photo'), async function (req, res, next)
     }
   }
   else {
-    res.log.info('No vectors found in the image for user: ' + req.body.name_surname);
+    res.log.info('No vectors found in the image');
     res.status(403).send({error: 'No vectors found in the image.'})
   }
 })
@@ -99,21 +99,21 @@ app.post('/signin', upload.single('user_photo'), async function (req, res, next)
 ;(async () => { // for ; at the beginning see: https://github.com/expressjs/express/issues/3515#issuecomment-353738007
   const initModels = async () => {
     try {
-      const ssdMobilenetv1Method = faceapi.nets.ssdMobilenetv1.loadFromDisk(`./weights`)
-      const faceLandmark68NetMethod = faceapi.nets.faceLandmark68Net.loadFromDisk(`./weights`)
-      const faceRecognitionNetMethod = faceapi.nets.faceRecognitionNet.loadFromDisk(`./weights`)
+      const ssdMobilenetv1Method = faceapi.nets.ssdMobilenetv1.loadFromDisk('./weights')
+      const faceLandmark68NetMethod = faceapi.nets.faceLandmark68Net.loadFromDisk('./weights')
+      const faceRecognitionNetMethod = faceapi.nets.faceRecognitionNet.loadFromDisk('./weights')
       await ssdMobilenetv1Method
       await faceLandmark68NetMethod
       await faceRecognitionNetMethod
       return true;
     }
     catch (error) {
-      logger.error('Models failed to load: ' + error)
-      return false
+      logger.error(`Models failed to load: ${error}`);
+      return false;
     }
   }
   if (await initModels()) {
     app.listen(4000);
-    logger.info(`Running a GraphQL API server at http://localhost:4000/graphql`);
+    logger.info('Running a GraphQL API server at http://localhost:4000/graphql');
   }
 })();
