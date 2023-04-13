@@ -64,7 +64,7 @@ app.post('/register', upload.single('user_photo'), async function (req, res, nex
       )
       .then((res) => res.rows[0].name_surname)
       .catch((e) => req.log.error(e));
-    res.json(result);
+    res.json({nameSurname: result});
   }
   else {
     res.log.info('No vectors found in the image for user: ' + req.body.name_surname);
@@ -77,15 +77,18 @@ app.post('/signin', upload.single('user_photo'), async function (req, res, next)
   if(descriptors.length) {
     const result = await pool
       .query(
-        'SELECT name_surname, l2_distance(biometrics::text::vector, $1) as distance from public.users ORDER BY distance ASC LIMIT 1',
-        [JSON.stringify(descriptors)]
+        'SELECT * FROM (SELECT name_surname, l2_distance(biometrics::text::vector, $1) as distance FROM users) AS distances WHERE distance <= $2 ORDER BY distance ASC LIMIT 1',
+        [JSON.stringify(descriptors), process.env.RECOGNITION_TRESHOLD]
       )
-      .then((res) => {
-        req.log.debug(res.rows[0])
-          return res.rows[0]
-        })
+      .then((res) => res.rows[0])
       .catch((e) => req.log.error(e));
-    res.json(result);
+    if(result) {
+      res.log.debug(result);
+      res.json(result);  
+    }
+    else {
+      res.status(403).send({error: 'No matches found in the database.'});
+    }
   }
   else {
     res.log.info('No vectors found in the image for user: ' + req.body.name_surname);
