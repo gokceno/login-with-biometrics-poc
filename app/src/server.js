@@ -37,11 +37,6 @@ faceapi.env.monkeyPatch({ Canvas, Image, ImageData })
 async function loadUserPhoto(userPhoto) {
   try {
     const img = await loadImage(userPhoto);
-    /*
-    const img = new Image();
-    img.src = fs.readFileSync(path.join('uploads', userPhoto));
-    img.src = userPhoto;
-    */
     return img;
   } catch (e) {
     throw Error('Error loading image');
