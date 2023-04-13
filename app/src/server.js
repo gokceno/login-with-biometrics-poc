@@ -1,9 +1,9 @@
-require('@tensorflow/tfjs')
+require('@tensorflow/tfjs');
 
-const express = require('express')
-const { Pool } = require('pg')
-const faceapi = require('face-api.js')
-const app = express()
+const express = require('express');
+const { Pool } = require('pg');
+const faceapi = require('face-api.js');
+const app = express();
 const pool = new Pool({
   user: process.env.PGUSER,
   host: process.env.PGHOST,
@@ -11,12 +11,12 @@ const pool = new Pool({
   password: process.env.PGPASSWORD,
   port: process.env.PGPORT,
   ssl: process.env.PGSSL
-})
-const multer  = require('multer')
-const upload = multer({storage: multer.memoryStorage()})
-const canvas = require('canvas')
+});
+const multer  = require('multer');
+const upload = multer({storage: multer.memoryStorage()});
+const canvas = require('canvas');
 
-// Setup logging
+// Set up logging
 const loggerOptions = {
   level: process.env.LOGLEVEL,
   transport: {
@@ -26,13 +26,13 @@ const loggerOptions = {
     }
   },
 };
-const pinoHttp = require('pino-http')(loggerOptions)
-const logger = require('pino')(loggerOptions)
-app.use(pinoHttp)
+const pinoHttp = require('pino-http')(loggerOptions);
+const logger = require('pino')(loggerOptions);
+app.use(pinoHttp);
 
-//Set up canvas anda face-api
-const { Canvas, Image, ImageData, loadImage } = canvas
-faceapi.env.monkeyPatch({ Canvas, Image, ImageData })
+// Set up canvas anda face-api
+const { Canvas, Image, ImageData, loadImage } = canvas;
+faceapi.env.monkeyPatch({ Canvas, Image, ImageData });
 
 const loadUserPhoto = async (userPhoto) => {
   try {
@@ -68,9 +68,9 @@ app.post('/register', upload.single('user_photo'), async function (req, res, nex
   }
   else {
     res.log.info(`No vectors found in the image for user: ${req.body.name_surname}`);
-    res.status(403).send({error: 'No vectors found in the image.'})
+    res.status(403).send({error: 'No vectors found in the image.'});
   }
-})
+});
 
 app.post('/signin', upload.single('user_photo'), async function (req, res, next) {
   const descriptors = await detectFace(await loadUserPhoto(req.file.buffer));
@@ -94,7 +94,7 @@ app.post('/signin', upload.single('user_photo'), async function (req, res, next)
     res.log.info('No vectors found in the image');
     res.status(403).send({error: 'No vectors found in the image.'})
   }
-})
+});
 
 ;(async () => { // for ; at the beginning see: https://github.com/expressjs/express/issues/3515#issuecomment-353738007
   const initModels = async () => {
