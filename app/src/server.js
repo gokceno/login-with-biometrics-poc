@@ -13,17 +13,6 @@ const pool = new Pool({
   ssl: process.env.PGSSL
 })
 const multer  = require('multer')
-/*
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    const path = require('path')
-    cb(null, path.join('uploads/'))
-  },
-  filename: function (req, file, cb) {
-    cb(null, Math.round(Math.random() * 1E9) + '-' + file.originalname)
-  }
-})
-*/
 const upload = multer({storage: multer.memoryStorage()})
 const canvas = require('canvas')
 
@@ -72,29 +61,41 @@ async function detectFace(img) {
 
 app.post('/register', upload.single('user_photo'), async function (req, res, next) {
   const descriptors = await detectFace(await loadUserPhoto(req.file.buffer));
-  const result = await pool
-    .query(
-      'INSERT INTO "users" ("name_surname", "biometrics") VALUES ($1, $2) RETURNING *',
-      [req.body.name_surname, JSON.stringify(descriptors)]
+  if(descriptors.length) {
+    const result = await pool
+      .query(
+        'INSERT INTO "users" ("name_surname", "biometrics") VALUES ($1, $2) RETURNING *',
+        [req.body.name_surname, JSON.stringify(descriptors)]
       )
-    .then((res) => res.rows[0].name_surname)
-    .catch((e) => req.log.error(e));
-  res.json(result);
+      .then((res) => res.rows[0].name_surname)
+      .catch((e) => req.log.error(e));
+    res.json(result);
+  }
+  else {
+    res.log.info('No vectors found in the image for user: ' + req.body.name_surname);
+    res.status(403).send({error: 'No vectors found in the image.'})
+  }
 })
 
 app.post('/signin', upload.single('user_photo'), async function (req, res, next) {
   const descriptors = await detectFace(await loadUserPhoto(req.file.buffer));
-  const result = await pool
-    .query(
-      'SELECT name_surname, l2_distance(biometrics::text::vector, $1) as distance from public.users ORDER BY distance ASC LIMIT 1',
-      [JSON.stringify(descriptors)]
-    )
-    .then((res) => {
-      req.log.debug(res.rows[0])
-      return res.rows[0]
-  })
-  .catch((e) => req.log.error(e));
-  res.json(result);
+  if(descriptors.length) {
+    const result = await pool
+      .query(
+        'SELECT name_surname, l2_distance(biometrics::text::vector, $1) as distance from public.users ORDER BY distance ASC LIMIT 1',
+        [JSON.stringify(descriptors)]
+      )
+      .then((res) => {
+        req.log.debug(res.rows[0])
+          return res.rows[0]
+        })
+      .catch((e) => req.log.error(e));
+    res.json(result);
+  }
+  else {
+    res.log.info('No vectors found in the image for user: ' + req.body.name_surname);
+    res.status(403).send({error: 'No vectors found in the image.'})
+  }
 })
 
 ;(async () => { // for ; at the beginning see: https://github.com/expressjs/express/issues/3515#issuecomment-353738007
