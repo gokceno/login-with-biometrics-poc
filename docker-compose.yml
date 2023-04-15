@@ -8,4 +8,4 @@ services:
         - 4000:4000
       env_file:
       - .env
-      command: ["node", "src/server.js"]
+      command: ["npm", "run", "start"]
