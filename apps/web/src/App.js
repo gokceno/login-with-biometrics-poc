@@ -59,6 +59,13 @@ export function App() {
             >
               Sign up 
             </button>
+            &nbsp;&nbsp;
+             <a
+                className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800"
+                href="#"
+              >
+              or Sign in
+              </a>
           </div>
         </form>
       </div>
