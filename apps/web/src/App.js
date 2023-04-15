@@ -19,8 +19,13 @@ const uppy = new Uppy({ restrictions: {maxNumberOfFiles: 1}})
     fieldName: 'user_photo'
   })
   .on('complete', (file, response) => {
-    alert(`Welcome aboard ${file.successful[0].response.body.nameSurname}`);
-  });
+    if(file.failed.length == 0) {
+      alert(`Welcome aboard ${file.successful[0].response.body.nameSurname}`);
+    }
+  })
+  .on('upload-error', (file, error, response) => {
+    alert(`Error: ${response.body.error}`);
+});
 
 export function App() {
   useEffect(() => {
