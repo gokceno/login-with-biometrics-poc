@@ -1,6 +1,16 @@
 {
+  "name": "Login-with-Biometrics-PoC",
   "private": true,
   "license": "UNLICENSED",
-  "workspaces": ["apps/web"],
-  "packageManager": "yarn@1.22.19"
+  "workspaces": [
+    "apps/web"
+  ],
+  "packageManager": "yarn@1.22.19",
+  "scripts": {
+    "release": "release-it"
+  },
+  "devDependencies": {
+    "release-it": "^15.10.1"
+  },
+  "release-it": {}
 }
