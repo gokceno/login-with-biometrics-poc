@@ -96,15 +96,15 @@ app.post('/signin', upload.single('user_photo'), async function (req, res, next)
   }
 });
 
-;(async () => { // for ; at the beginning see: https://github.com/expressjs/express/issues/3515#issuecomment-353738007
+(async () => { // for ; at the beginning see: https://github.com/expressjs/express/issues/3515#issuecomment-353738007
   const initModels = async () => {
     try {
-      const ssdMobilenetv1Method = faceapi.nets.ssdMobilenetv1.loadFromDisk('./weights')
-      const faceLandmark68NetMethod = faceapi.nets.faceLandmark68Net.loadFromDisk('./weights')
-      const faceRecognitionNetMethod = faceapi.nets.faceRecognitionNet.loadFromDisk('./weights')
-      await ssdMobilenetv1Method
-      await faceLandmark68NetMethod
-      await faceRecognitionNetMethod
+      const ssdMobilenetv1Method = faceapi.nets.ssdMobilenetv1.loadFromDisk('./weights');
+      const faceLandmark68NetMethod = faceapi.nets.faceLandmark68Net.loadFromDisk('./weights');
+      const faceRecognitionNetMethod = faceapi.nets.faceRecognitionNet.loadFromDisk('./weights');
+      await ssdMobilenetv1Method;
+      await faceLandmark68NetMethod;
+      await faceRecognitionNetMethod;
       return true;
     }
     catch (error) {
