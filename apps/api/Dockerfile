@@ -11,8 +11,7 @@ WORKDIR /usr/app
 COPY ./ /usr/app
 
 # Install NPM dependencies
-RUN npm cache clean --force
-RUN npm install --build-from-source canvas
+RUN npm install --build-from-source canvas@2.11.2
 RUN npm install @tensorflow/tfjs-node@4.4.0
 RUN npm rebuild @tensorflow/tfjs-node@4.4.0 --build-from-source
 RUN npm install
