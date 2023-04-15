@@ -1,5 +1,6 @@
-require('@tensorflow/tfjs');
-
+if(process.env.USE_TF_NODE == 'true') {
+  require('@tensorflow/tfjs-node');
+}
 const express = require('express');
 const { Pool } = require('pg');
 const faceapi = require('face-api.js');
