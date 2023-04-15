@@ -12,6 +12,13 @@
   "devDependencies": {
     "release-it": "^15.10.1"
   },
-  "release-it": {},
+  "release-it": {
+    "git": {
+      "changelog": "npx auto-changelog --stdout --commit-limit false -u --template https://raw.githubusercontent.com/release-it/release-it/main/templates/changelog-compact.hbs"
+    },
+    "hooks": {
+      "after:bump": "npx auto-changelog -p"
+    }
+  },
   "version": "0.1.0"
 }
