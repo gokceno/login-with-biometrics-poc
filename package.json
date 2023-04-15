@@ -1,6 +1,6 @@
 {
   "private": true,
   "license": "UNLICENSED",
-  "workspaces": ["apps/*"],
+  "workspaces": ["apps/web"],
   "packageManager": "yarn@1.22.19"
 }
