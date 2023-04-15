@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 import { createRoot } from "react-dom/client";
 import { App } from "./App.js";
 
+import './assets/main.css';
+
 dotenv.config();
 
 const rootElement = document.getElementById("root");
