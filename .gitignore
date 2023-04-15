@@ -3,4 +3,3 @@
 **/node_modules
 **/*.log
 .turbo
-./apps/web/src/assets/main.css
