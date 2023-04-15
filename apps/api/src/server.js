@@ -5,6 +5,7 @@ const express = require('express');
 const { Pool } = require('pg');
 const faceapi = require('face-api.js');
 const app = express();
+const cors = require('cors')
 const pool = new Pool({
   user: process.env.PGUSER,
   host: process.env.PGHOST,
@@ -29,7 +30,6 @@ const loggerOptions = {
 };
 const pinoHttp = require('pino-http')(loggerOptions);
 const logger = require('pino')(loggerOptions);
-app.use(pinoHttp);
 
 // Set up canvas anda face-api
 const { Canvas, Image, ImageData, loadImage } = canvas;
@@ -55,7 +55,10 @@ const detectFace = async (img) => {
   return descriptors;
 }
 
-app.post('/register', upload.single('user_photo'), async function (req, res, next) {
+app.use(pinoHttp);
+app.options('*', cors())
+
+app.post('/register', cors(), upload.single('user_photo'), async function (req, res, next) {
   const descriptors = await detectFace(await loadUserPhoto(req.file.buffer));
   if(descriptors.length) {
     const result = await pool
@@ -73,7 +76,7 @@ app.post('/register', upload.single('user_photo'), async function (req, res, nex
   }
 });
 
-app.post('/signin', upload.single('user_photo'), async function (req, res, next) {
+app.post('/signin', cors(), upload.single('user_photo'), async function (req, res, next) {
   const descriptors = await detectFace(await loadUserPhoto(req.file.buffer));
   if(descriptors.length) {
     const result = await pool
