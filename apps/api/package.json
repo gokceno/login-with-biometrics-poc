@@ -1,5 +1,6 @@
 {
-  "name": "Login with Biometrics PoC",
+  "name": "Login-with-Biometrics-PoC-API",
+  "private": true,
   "version": "0.1.0",
   "homepage": "https://github.com/gokceno/login-with-biometrics-poc",
   "bugs": {
