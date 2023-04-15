@@ -96,11 +96,11 @@ app.post('/signin', cors(), upload.single('user_photo'), async function (req, re
   }
   else {
     res.log.info('No vectors found in the image');
-    res.status(200).send({error: 'No vectors found in the image.'})
+    res.status(200).send({error: 'No vectors found in the image.'});
   }
 });
 
-(async () => { // for ; at the beginning see: https://github.com/expressjs/express/issues/3515#issuecomment-353738007
+(async () => {
   const initModels = async () => {
     try {
       const ssdMobilenetv1Method = faceapi.nets.ssdMobilenetv1.loadFromDisk('./weights');
