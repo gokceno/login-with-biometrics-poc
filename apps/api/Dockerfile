@@ -17,7 +17,7 @@ RUN npm install face-api.js@0.21.0
 RUN npm install @tensorflow/tfjs-node@1.2.11
 
 # Copy in the app and weights
-COPY ./app /usr/app
+COPY ./ /usr/app
 
 EXPOSE 4000
 
