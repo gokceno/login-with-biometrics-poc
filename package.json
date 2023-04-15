@@ -12,5 +12,6 @@
   "devDependencies": {
     "release-it": "^15.10.1"
   },
-  "release-it": {}
+  "release-it": {},
+  "version": "0.1.0"
 }
