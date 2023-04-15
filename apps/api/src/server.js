@@ -72,7 +72,7 @@ app.post('/register', cors(), upload.single('user_photo'), async function (req, 
   }
   else {
     res.log.info(`No vectors found in the image for user: ${req.body.name_surname}`);
-    res.status(403).send({error: 'No vectors found in the image.'});
+    res.status(200).send({error: 'No vectors found in the image.'});
   }
 });
 
@@ -91,12 +91,12 @@ app.post('/signin', cors(), upload.single('user_photo'), async function (req, re
       res.json(result);  
     }
     else {
-      res.status(403).send({error: 'No matches found in the database.'});
+      res.status(200).send({error: 'No matches found in the database.'});
     }
   }
   else {
     res.log.info('No vectors found in the image');
-    res.status(403).send({error: 'No vectors found in the image.'})
+    res.status(200).send({error: 'No vectors found in the image.'})
   }
 });
 
