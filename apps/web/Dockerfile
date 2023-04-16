@@ -16,6 +16,5 @@ RUN yarn build
 
 FROM nginx AS runner
 
+COPY --from=builder /usr/app/.nginx/nginx.conf /etc/nginx/nginx.conf
 COPY --from=builder /usr/app/build /usr/share/nginx/html
-
-EXPOSE 80
