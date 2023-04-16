@@ -1,5 +1,5 @@
 # Specify a base image
-FROM node:18 AS build 
+FROM node:18 AS builder
 
 # Change working directory
 WORKDIR /usr/app
@@ -11,6 +11,11 @@ COPY ./ /usr/app
 ENV NODE_OPTIONS=--openssl-legacy-provider
 RUN yarn install
 
-EXPOSE 3000
+# Build app
+RUN yarn build
 
-CMD ["yarn", "start"]
+FROM nginx AS runner
+
+COPY --from=builder /usr/app/build /usr/share/nginx/html
+
+EXPOSE 80
