@@ -538,6 +538,9 @@ video {
 .block {
   display: block;
 }
+.inline-block {
+  display: inline-block;
+}
 .flex {
   display: flex;
 }
@@ -599,6 +602,9 @@ video {
 .pt-6 {
   padding-top: 1.5rem;
 }
+.align-baseline {
+  vertical-align: baseline;
+}
 .text-3xl {
   font-size: 1.875rem;
   line-height: 2.25rem;
@@ -612,6 +618,10 @@ video {
 }
 .leading-tight {
   line-height: 1.25;
+}
+.text-blue-500 {
+  --tw-text-opacity: 1;
+  color: rgb(59 130 246 / var(--tw-text-opacity));
 }
 .text-gray-700 {
   --tw-text-opacity: 1;
@@ -629,6 +639,10 @@ video {
 .hover\:bg-blue-700:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(29 78 216 / var(--tw-bg-opacity));
+}
+.hover\:text-blue-800:hover {
+  --tw-text-opacity: 1;
+  color: rgb(30 64 175 / var(--tw-text-opacity));
 }
 .focus\:outline-none:focus {
   outline: 2px solid transparent;

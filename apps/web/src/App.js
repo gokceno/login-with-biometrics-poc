@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Uppy from '@uppy/core';
 import Webcam from '@uppy/webcam';
 import { Dashboard } from '@uppy/react';
@@ -18,22 +18,41 @@ const uppy = new Uppy({ restrictions: {maxNumberOfFiles: 1}})
     endpoint: `${process.env.REACT_APP_API_BASEURL}/register`,
     fieldName: 'user_photo'
   })
-  .on('complete', (file, response) => {
-    if(file.failed.length == 0) {
-      alert(`Welcome aboard ${file.successful[0].response.body.nameSurname}`);
-    }
-  })
   .on('upload-error', (file, error, response) => {
     alert(`Error: ${response.body.error}`);
-});
+  })
+  .on('complete', (file) => {
+    file.successful.map(file => uppy.removeFile(file.id));
+  });
 
 export function App() {
   useEffect(() => {
       uppy.use(Form, {
+      id: 'signup-form',
       target: '#signup',
       addResultToForm: false
     })
-  });
+  }, []);
+  const [inputValue, setInputValue] = useState('');
+  const handleInputChange = (event) => {
+    setInputValue(event.target.value);
+  }
+  const handleUpload = () => {
+    const files = uppy.getFiles();
+    if (files.length == 1 && inputValue.trim() !== '') {
+      uppy
+      .upload()
+      .then((result) => {
+        if(result.failed.length === 0) {
+          setInputValue('');
+          alert(`Welcome aboard ${result.successful[0].response.body.nameSurname}`);
+        }
+      })
+    }
+    else {
+      alert('Please take a picture or add an image file and enter your PII.');
+    }
+  }
   return (
     <div className="max-w-md mx-auto flex flex-col items-center">
       <h1 className="text-3xl font-bold mb-6 pt-6">Sign up with TMRW ID</h1>
@@ -53,6 +72,8 @@ export function App() {
                 name="name_surname"
                 type="text"
                 placeholder="Enter your PII"
+                value={inputValue}
+                onChange={handleInputChange}
               />
             </div>
           </div>
@@ -60,7 +81,7 @@ export function App() {
             <button
               className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
               type="button"
-              onClick={() => uppy.upload()}
+              onClick={handleUpload}
             >
               Sign up 
             </button>
