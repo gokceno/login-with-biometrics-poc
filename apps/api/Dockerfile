@@ -1,4 +1,4 @@
-# Specify a base image
+ # Specify a base image
 FROM node:18 AS build 
 
 # Install build tools
