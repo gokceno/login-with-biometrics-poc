@@ -50,7 +50,7 @@ docker-compose start api
 If you haven't created the containers earlier, then you can simply issue `docker-compose create` it'll create the containers for you.
 
 To make code changes on the backend APIs, you either need to:
--  Rebuild&restart the containers on each change by giving `docker-compose build api` and `docker-compose restart api` respectively.
+- Rebuild&restart the containers on each change by giving `docker-compose build api` and `docker-compose restart api` respectively.
 - Or alter the `docker-compose.yml` to mount the `src` folder instead of copying it upon build.
 
 Once the server is up&running, you can start the development server for the client-side project by giving the following command:
