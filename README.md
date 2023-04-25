@@ -16,7 +16,7 @@ This is another implementation of legendary [face-api.js](https://justadudewhoha
 
 ### Setting up the DB
 
-You'll need a PotgreSQL DB with [pgvector](https://github.com/pgvector/pgvector) installed, I used the [bit.io](http://bit.io/) and enabled the extension by `CREATE EXTENSION vector;`  command. Then create a table with three columns:
+You'll need a PostgreSQL DB with [pgvector](https://github.com/pgvector/pgvector) installed, I used the [bit.io](http://bit.io/) and enabled the extension by `CREATE EXTENSION vector;`  command. Then create a table with three columns:
 
 - id (int)
 - biometrics (JSON)
