@@ -26,6 +26,7 @@ You'll need a PostgreSQL DB with [pgvector](https://github.com/pgvector/pgvector
 
 ### Installation
 Make sure you create the `.env` files under both apps per `env.sample.txt` files provided.
+Run `yarn install` under `apps/web` to install the dependencies.
 
 ### Running Locally
 
