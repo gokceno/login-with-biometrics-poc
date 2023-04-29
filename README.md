@@ -1,3 +1,4 @@
+
 # Facial Recognition Login PoC
 
 This is another implementation of legendary [face-api.js](https://justadudewhohacks.github.io/face-api.js/docs/index.html) to create a "FaceID-like" facial recoginition and login system.
@@ -13,6 +14,10 @@ This is another implementation of legendary [face-api.js](https://justadudewhoha
 - If a match below 0.5 is found, it'll return you your PII.
 
 ## Running
+
+### See it in Action
+
+Visit the [temporary test environment](https://login-with-biometrics-lpq7g.ondigitalocean.app) to see it in action.
 
 ### Setting up the DB
 
