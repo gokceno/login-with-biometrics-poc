@@ -7,6 +7,11 @@ WORKDIR /usr/app
 # Copy in the app and weights
 COPY ./ /usr/app
 
+# Set build arguments
+ARG REACT_APP_API_BASEURL
+
+ENV REACT_APP_API_BASEURL=${REACT_APP_API_BASEURL}
+
 # Install NPM dependencies
 ENV NODE_OPTIONS=--openssl-legacy-provider
 RUN yarn install
