@@ -100,6 +100,18 @@ app.post('/signin', cors(), upload.single('user_photo'), async function (req, re
   }
 });
 
+app.post('/identify', cors(), upload.single('user_photo'), async function (req, res, next) {
+  const descriptors = await detectFace(await loadUserPhoto(req.file.buffer));
+  if(descriptors.length) {
+      res.log.debug(descriptors);
+      res.json(descriptors);  
+  }
+  else {
+    res.log.info('No vectors were found in the image');
+    res.status(412).send({error: 'No vectors were found in the image.'});
+  }
+});
+
 (async () => {
   const initModels = async () => {
     try {
